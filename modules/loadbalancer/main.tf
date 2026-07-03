@@ -1,15 +1,15 @@
-﻿
+
 resource "azurerm_public_ip" "lb" {
 
-  name                = "pip-lb-${var.project_name}"
+  name = "pip-lb-${var.project_name}"
 
-  location            = var.location
+  location = var.location
 
   resource_group_name = var.resource_group_name
 
-  allocation_method   = "Static"
+  allocation_method = "Static"
 
-  sku                 = "Standard"
+  sku = "Standard"
 
 }
 
@@ -17,19 +17,19 @@ resource "azurerm_public_ip" "lb" {
 
 resource "azurerm_lb" "main" {
 
-  name                = "lb-${var.project_name}"
+  name = "lb-${var.project_name}"
 
-  location            = var.location
+  location = var.location
 
   resource_group_name = var.resource_group_name
 
-  sku                 = "Standard"
+  sku = "Standard"
 
 
 
   frontend_ip_configuration {
 
-    name                 = "frontend"
+    name = "frontend"
 
     public_ip_address_id = azurerm_public_ip.lb.id
 
@@ -41,7 +41,7 @@ resource "azurerm_lb" "main" {
 
 resource "azurerm_lb_backend_address_pool" "main" {
 
-  name            = "backend-pool"
+  name = "backend-pool"
 
   loadbalancer_id = azurerm_lb.main.id
 
@@ -51,11 +51,11 @@ resource "azurerm_lb_backend_address_pool" "main" {
 
 resource "azurerm_network_interface_backend_address_pool_association" "main" {
 
-  count                   = length(var.vm_nic_ids)
+  count = length(var.vm_nic_ids)
 
-  network_interface_id    = var.vm_nic_ids[count.index]
+  network_interface_id = var.vm_nic_ids[count.index]
 
-  ip_configuration_name   = "internal"
+  ip_configuration_name = "internal"
 
   backend_address_pool_id = azurerm_lb_backend_address_pool.main.id
 }

@@ -1,11 +1,11 @@
-﻿
+
 terraform {
 
   required_providers {
 
     azurerm = {
 
-      source  = "hashicorp/azurerm"
+      source = "hashicorp/azurerm"
 
       version = "~> 4.0"
 
@@ -17,13 +17,13 @@ terraform {
 
   backend "azurerm" {
 
-    resource_group_name  = "rg-terraform-state"
+    resource_group_name = "rg-terraform-state"
 
     storage_account_name = "tfstatelab2026"
 
-    container_name       = "tfstate"
+    container_name = "tfstate"
 
-    key                  = "azure-web-infrastructure.tfstate"
+    key = "azure-web-infrastructure.tfstate"
 
   }
 
@@ -43,7 +43,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "main" {
 
-  name     = var.resource_group_name
+  name = var.resource_group_name
 
   location = var.location
 
@@ -53,11 +53,11 @@ resource "azurerm_resource_group" "main" {
 
 resource "azurerm_virtual_network" "main" {
 
-  name                = "vnet-${var.project_name}"
+  name = "vnet-${var.project_name}"
 
-  address_space       = ["10.0.0.0/16"]
+  address_space = ["10.0.0.0/16"]
 
-  location            = azurerm_resource_group.main.location
+  location = azurerm_resource_group.main.location
 
   resource_group_name = azurerm_resource_group.main.name
 
@@ -67,9 +67,9 @@ resource "azurerm_virtual_network" "main" {
 
 resource "azurerm_subnet" "main" {
 
-  name                 = "subnet-${var.project_name}"
+  name = "subnet-${var.project_name}"
 
-  resource_group_name  = azurerm_resource_group.main.name
+  resource_group_name = azurerm_resource_group.main.name
 
   virtual_network_name = azurerm_virtual_network.main.name
   address_prefixes     = ["10.0.1.0/24"]
