@@ -137,3 +137,7 @@ output "load_balancer_ip" {
 output "vm_private_ips" {
   value = module.vms.private_ips
 }
+
+output "vm_public_ips" {
+  value = module.vms.public_ips
+}
