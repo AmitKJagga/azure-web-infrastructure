@@ -49,7 +49,9 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 -d > ~/.ssh/ansible_lab_key
+          cat > ~/.ssh/ansible_lab_key << 'SSHKEY'
+          ${{ secrets.SSH_PRIVATE_KEY }}
+          SSHKEY
           chmod 600 ~/.ssh/ansible_lab_key
           ssh-keygen -l -f ~/.ssh/ansible_lab_key
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
