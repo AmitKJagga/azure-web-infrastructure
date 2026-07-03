@@ -30,3 +30,5 @@ GitHub Actions Pipeline → Terraform → Azure Load Balancer → VM-1 + VM-2 �
 
 AJ (Amit Kumar) — System Administrator pursuing Cloud/Virtualization Architect roles.
 Certifications: VCP-DCV, AZ-104, M365 Administrator Expert, SC-200
+
+Last deployed: July 2026
