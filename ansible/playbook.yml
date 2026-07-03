@@ -1,0 +1,126 @@
+﻿
+---
+
+- name: Configure Web Servers
+
+  hosts: all
+
+  become: yes
+
+
+
+  tasks:
+
+    - name: Update apt cache
+
+      apt:
+
+        update_cache: yes
+
+        cache_valid_time: 3600
+
+
+
+    - name: Install nginx
+
+      apt:
+
+        name: nginx
+
+        state: present
+
+
+
+    - name: Install ufw firewall
+
+      apt:
+
+        name: ufw
+
+        state: present
+
+
+
+    - name: Allow SSH through firewall
+
+      ufw:
+
+        rule: allow
+
+        port: "22"
+
+        proto: tcp
+
+
+
+    - name: Allow HTTP through firewall
+
+      ufw:
+
+        rule: allow
+
+        port: "80"
+
+        proto: tcp
+
+
+
+    - name: Enable firewall
+
+      ufw:
+
+        state: enabled
+
+        policy: deny
+
+
+
+    - name: Harden SSH - disable root login
+
+      lineinfile:
+
+        path: /etc/ssh/sshd_config
+
+        regexp: "^PermitRootLogin"
+
+        line: "PermitRootLogin no"
+
+        state: present
+
+
+
+    - name: Harden SSH - disable password authentication
+
+      lineinfile:
+
+        path: /etc/ssh/sshd_config
+
+        regexp: "^PasswordAuthentication"
+        line: "PasswordAuthentication no"
+        state: present
+
+    - name: Restart SSH service
+      service:
+        name: ssh
+        state: restarted
+
+    - name: Start and enable nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Deploy custom index page
+      copy:
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head><title>AJ Web Infrastructure</title></head>
+          <body>
+            <h1>Deployed by Terraform + Ansible</h1>
+            <p>Server: {{ ansible_hostname }}</p>
+            <p>IP: {{ ansible_default_ipv4.address }}</p>
+            <p>Built by: AJ (Amit Kumar) - Cloud Infrastructure Lab</p>
+          </body>
+          </html>
+        dest: /var/www/html/index.html
