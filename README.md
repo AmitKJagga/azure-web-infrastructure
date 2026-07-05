@@ -78,4 +78,6 @@ Pursuing Cloud and Infrastructure Engineer roles in Toronto and Remote
 
 Certifications: VCP-DCV | AZ-104 | M365 Administrator Expert | SC-200
 
+July 2026
+
 [GitHub Profile](https://github.com/AmitKJagga)
